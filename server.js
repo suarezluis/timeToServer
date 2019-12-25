@@ -16,6 +16,7 @@ app.get("/", async (req, res) => {
     handleSIGINT: false
   });
   const page = await browser.newPage();
+  await page.setCacheEnabled(false);
   await page.setJavaScriptEnabled(true);
   await page.setViewport({
     width: 1280,
@@ -33,7 +34,7 @@ app.get("/", async (req, res) => {
   const result = await page.evaluate(() => {
     let html = "";
     try {
-      html = document.getElementsByTagName("html");
+      html = document.getElementsByTagName("HTML");
       let time = document.querySelector(".section-directions-trip-duration")
         .innerText;
 
@@ -50,8 +51,8 @@ app.get("/", async (req, res) => {
     }
   });
 
-  result.from = addressFrom;
-  result.to = addressTo;
+  result.from = addressFrom || "";
+  result.to = addressTo || "";
 
   console.log(result);
   await page.close();
