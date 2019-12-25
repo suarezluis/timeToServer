@@ -9,8 +9,6 @@ var addressFrom = "";
 var to = "";
 
 app.get("/", async (req, res) => {
-  res.send({ Success: true });
-
   const puppeteer = require("puppeteer");
 
   const browser = await puppeteer.launch({});
