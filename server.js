@@ -1,14 +1,17 @@
 const express = require("express");
 var cors = require("cors");
 const app = express();
+var bodyParser = require("body-parser");
 const port = process.env.PORT || 8080;
 
 app.use(cors());
-
+app.use(bodyParser());
 var addressFrom = "";
 var to = "";
 
-app.get("/", async (req, res) => {
+app.post("/", async (req, res) => {
+  // res.send(req.body.from);
+  // return;
   const puppeteer = require("puppeteer");
 
   const browser = await puppeteer.launch({
@@ -23,11 +26,12 @@ app.get("/", async (req, res) => {
     height: 800
   });
 
-  addressFrom = await encodeURI(req.query.from);
-  addressTo = await encodeURI(req.query.to);
+  addressFrom = req.body.from;
+  addressTo = req.body.to;
   // res.send([addressFrom, to]);
+  let url = `https://www.google.com/maps/dir/${addressFrom}/${addressTo}/`;
   await page.goto(
-    `https://www.google.com/maps/dir/${addressFrom}/${addressTo}/`
+    url
     // "http://www.suarezluis.com/"
   );
 
@@ -53,7 +57,7 @@ app.get("/", async (req, res) => {
 
   result.from = addressFrom || "";
   result.to = addressTo || "";
-
+  result.url = url;
   console.log(result);
   await page.close();
   await browser.close();
