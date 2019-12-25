@@ -11,7 +11,10 @@ var to = "";
 app.get("/", async (req, res) => {
   const puppeteer = require("puppeteer");
 
-  const browser = await puppeteer.launch({ args: ["--no-sandbox"] });
+  const browser = await puppeteer.launch({
+    args: ["--no-sandbox"],
+    handleSIGINT: false
+  });
   const page = await browser.newPage();
   await page.setJavaScriptEnabled(true);
   await page.setViewport({
@@ -44,8 +47,8 @@ app.get("/", async (req, res) => {
   result.to = addressTo;
 
   console.log(result);
-
-  browser.close();
+  await page.close();
+  await browser.close();
 
   res.send(result);
 });
