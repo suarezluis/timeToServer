@@ -35,8 +35,8 @@ app.get("/", async (req, res) => {
       return {
         time
       };
-    } catch {
-      return { time: "unknown, server error" };
+    } catch (error) {
+      return { time: "unknown, server error", error, message: error.message };
     }
   });
 
