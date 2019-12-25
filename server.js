@@ -31,7 +31,9 @@ app.get("/", async (req, res) => {
   );
 
   const result = await page.evaluate(() => {
+    let html = "";
     try {
+      html = document.getElementsByTagName("html");
       let time = document.querySelector(".section-directions-trip-duration")
         .innerText;
 
@@ -39,7 +41,12 @@ app.get("/", async (req, res) => {
         time
       };
     } catch (error) {
-      return { time: "unknown, server error", error, message: error.message };
+      return {
+        time: "unknown, server error",
+        error,
+        message: error.message,
+        html
+      };
     }
   });
 
