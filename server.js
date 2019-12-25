@@ -11,7 +11,7 @@ var to = "";
 app.get("/", async (req, res) => {
   const puppeteer = require("puppeteer");
 
-  const browser = await puppeteer.launch({});
+  const browser = await puppeteer.launch({ args: ["--no-sandbox"] });
   const page = await browser.newPage();
   await page.setJavaScriptEnabled(true);
   await page.setViewport({
