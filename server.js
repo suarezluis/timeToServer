@@ -15,7 +15,7 @@ app.post("/", async (req, res) => {
   const puppeteer = require("puppeteer");
 
   const browser = await puppeteer.launch({
-    args: ["--no-sandbox", "--incognito"],
+    args: ["--no-sandbox", "--incognito", "--disable-setuid-sandbox"],
     handleSIGINT: false
   });
   const page = await browser.newPage();
